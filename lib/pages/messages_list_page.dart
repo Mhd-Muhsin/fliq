@@ -1,9 +1,30 @@
+import 'package:fliq/data/datasource/data_source.dart';
+import 'package:fliq/data/model/chat_list_response.dart';
 import 'package:flutter/material.dart';
 import 'chat_screen.dart';
 
-class MessagesListPage extends StatelessWidget {
+class MessagesListPage extends StatefulWidget {
+  @override
+  State<MessagesListPage> createState() => _MessagesListPageState();
+}
+
+class _MessagesListPageState extends State<MessagesListPage> {
+
+  ChatListResponse? chatListResponse;
+
+  @override
+  void initState() {
+    super.initState();
+    getChatList();
+  }
+
+  getChatList() async{
+    chatListResponse = await DataSource.getChatList();
+  }
+
   @override
   Widget build(BuildContext context) {
+    chatListResponse;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Messages',
@@ -36,26 +57,47 @@ class MessagesListPage extends StatelessWidget {
                 )),
             const SizedBox(height: 8,),
             Expanded(
-              child: ListView(
-                children: [
-                  GestureDetector(
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        child: Text('C'),
-                      ),
-                      title: Text('Christina', style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600
-                      )),
-                      trailing: Text('10:00 AM'),
+              child: ListView.builder(
+                itemBuilder: (context, index){
+                return GestureDetector(
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      child: Text('C'),
                     ),
-                    onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatScreen()));
-                    },
+                    title: Text(chatListResponse?.data[index].attributes?.name ?? 'No Name', style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600
+                    )),
+                    trailing: Text('10:00 AM'),
                   ),
-                ],
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatScreen()));
+                  },
+                );
+              },
+                itemCount: chatListResponse?.data.length ?? 0,
               ),
+              // child: ListView(
+              //   children: [
+              //     GestureDetector(
+              //       child: ListTile(
+              //         leading: CircleAvatar(
+              //           child: Text('C'),
+              //         ),
+              //         title: Text(chatListResponse.data.a, style: TextStyle(
+              //             color: Colors.black,
+              //             fontSize: 18,
+              //             fontWeight: FontWeight.w600
+              //         )),
+              //         trailing: Text('10:00 AM'),
+              //       ),
+              //       onTap: (){
+              //         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatScreen()));
+              //       },
+              //     ),
+              //   ],
+              // ),
             ),
           ],
         ),

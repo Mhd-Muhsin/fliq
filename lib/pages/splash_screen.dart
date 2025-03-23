@@ -13,6 +13,9 @@ class SplashScreen extends StatelessWidget {
               'https://s3-alpha-sig.figma.com/img/808f/1e2e/679edf7a7dff2065130238978ad11f71?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=UQ1auFiqHrJ-hePkj2n1U65ulghU3fTz1mu6erWIzm34poW1B3cvMbj~ODXoD7lji86p7mVO~577L9alcdkPhRkQkoqJdTvW3RwSTnbnKa1bz1QWhPRpuCsYvWH4W0bMpMfWvCuYHwrEHtLjxiIV6nD65Q5qAETY3Lvz8rVUKu6aT2LatCtlx0JGqNh8D7ti9~fUtl8pJXP~wv1lxtBpeEKBMt0XqOHqyYi75YvjLHIuwnps2NTtQ9LKtr~F73Sju20Fre7wLzWa3TBH1VUOCJFPpxUkz6ip76-VEdERRq8wm2HZ0XuHngsKYW0tSWt4LCnsjxEo2-QIwfCW9mzU-A__',
             fit: BoxFit.fitHeight,
             height: MediaQuery.of(context).size.height,
+            errorBuilder: (context, error, stackTrace) {
+              return const Center(child: Text('Failed to load image'));
+            },
           ),
           Padding(
             padding: const EdgeInsets.all(25.0),

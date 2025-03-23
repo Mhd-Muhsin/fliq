@@ -3,10 +3,17 @@ import 'package:flutter/material.dart';
 
 import 'otp_screen.dart';
 
-class PhoneNumberScreen extends StatelessWidget {
+class PhoneNumberScreen extends StatefulWidget {
   PhoneNumberScreen({super.key});
 
-  TextEditingController phoneController = TextEditingController();
+  @override
+  State<PhoneNumberScreen> createState() => _PhoneNumberScreenState();
+}
+
+class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
+  TextEditingController phoneController = TextEditingController(text: '+919090909098');
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -57,12 +64,9 @@ class PhoneNumberScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(25.0),
-              child: ElevatedButton(
-                onPressed: ()async {
-
-                  await DataSource().sendOTP(mobileNumber: phoneController.text);
-
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => OTPScreen()));
+              child: isLoading ? const CircularProgressIndicator() : ElevatedButton(
+                onPressed: () {
+                  sendOTP();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFE6446E),
@@ -75,5 +79,22 @@ class PhoneNumberScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  sendOTP() async{
+
+    setState(() {
+      isLoading = true;
+    });
+
+    bool APISuccess = await DataSource.sendOTP(mobileNumber: phoneController.text);
+
+    setState(() {
+      isLoading = false;
+    });
+
+    if (APISuccess) {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => OTPScreen(mobileNumber: phoneController.text,)));
+    }
   }
 }
