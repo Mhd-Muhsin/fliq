@@ -3,6 +3,7 @@ import 'package:fliq/pages/messages_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../core/cache_manager.dart';
 import '../main.dart';
 
 class OTPScreen extends StatefulWidget {
@@ -15,7 +16,6 @@ class OTPScreen extends StatefulWidget {
 }
 
 class _OTPScreenState extends State<OTPScreen> {
-  // TextEditingController otpController = TextEditingController();
 
   bool isLoading = false;
 
@@ -54,21 +54,6 @@ class _OTPScreenState extends State<OTPScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      // TextField(
-                      //   controller: otpController,
-                      //   decoration: InputDecoration(
-                      //       hintText: 'OTP',
-                      //       hintStyle: const TextStyle(color: Colors.grey),
-                      //       border: OutlineInputBorder(
-                      //           borderRadius: BorderRadius.circular(12)
-                      //       )
-                      //   ),
-                      //   inputFormatters: [
-                      //     FilteringTextInputFormatter.digitsOnly,
-                      //   ],
-                      //   maxLength: 6,
-                      //   keyboardType: TextInputType.number,
-                      // ),
                       customOtpField(textController: otpController1),
                       customOtpField(textController: otpController2),
                       customOtpField(textController: otpController3),
@@ -118,22 +103,19 @@ class _OTPScreenState extends State<OTPScreen> {
       );
     } else {
 
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => MessagesListPage()));
+      setState(() {
+        isLoading = true;
+      });
 
+      bool APISuccess = await DataSource.verifyOTP(otp: int.tryParse(otp) ?? 0, mobileNumber: widget.mobileNumber);
 
-      // setState(() {
-      //   isLoading = true;
-      // });
-      //
-      // bool APISuccess = await DataSource.verifyOTP(otp: int.tryParse(otp) ?? 0, mobileNumber: widget.mobileNumber);
-      //
-      // setState(() {
-      //   isLoading = false;
-      // });
-      //
-      // if (APISuccess) {
-      //   Navigator.of(context).push(MaterialPageRoute(builder: (context) => MessagesListPage()));
-      // }
+      setState(() {
+        isLoading = false;
+      });
+
+      if (APISuccess) {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => MessagesListPage()));
+      }
     }
   }
 

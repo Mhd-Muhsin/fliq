@@ -12,12 +12,12 @@ class CacheManager {
     return await storage.read(key: 'token');
   }
 
-  Future saveReceiverId(String? receiverId) async {
-    await storage.write(key: 'receiverId', value: receiverId);
+  Future saveLoggedUserId(String? receiverId) async { //receiverId
+    await storage.write(key: 'LoggedUserId', value: receiverId);
   }
 
-  Future<String?> getReceiverId() async {
-    return await storage.read(key: 'receiverId');
+  Future<String?> getLoggedUserId() async {
+    return await storage.read(key: 'LoggedUserId');
   }
 
   // Future<void> removeToken() async {

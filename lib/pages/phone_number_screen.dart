@@ -11,7 +11,7 @@ class PhoneNumberScreen extends StatefulWidget {
 }
 
 class _PhoneNumberScreenState extends State<PhoneNumberScreen> {
-  TextEditingController phoneController = TextEditingController(text: '+919090909098');
+  TextEditingController phoneController = TextEditingController();
 
   bool isLoading = false;
 

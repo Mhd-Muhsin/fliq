@@ -45,7 +45,14 @@ class SplashScreen extends StatelessWidget {
                           backgroundColor: const Color(0xFFE6446E),
                           minimumSize: const Size(double.infinity, 56), // width: full width, height: 50
                         ),
-                        child: const Text('Sign in with phone number', style: TextStyle(color: Colors.white),),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.phone, color: Colors.white,),
+                            SizedBox(width: 10,),
+                            Text('Sign in with phone number', style: TextStyle(color: Colors.white),),
+                          ],
+                        ),
                     ),
                     const SizedBox(height: 14,),
                     const Text(
